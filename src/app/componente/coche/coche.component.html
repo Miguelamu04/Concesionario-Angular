@@ -1,0 +1,75 @@
+<div class="luxury-viewport">
+
+  <header class="brand-header">
+    <h1>Concesionario</h1>
+    <div class="divider"></div>
+  </header>
+
+  <main class="content-grid">
+
+    <section class="inventory-section">
+      <div class="section-header">
+        <span class="subtitle">Disponibilidad</span>
+        <h2>Lista de Coches</h2>
+      </div>
+
+      <ul class="car-list">
+        <li *ngFor="let coche of listaCoches" class="car-item">
+          <div class="car-info">
+            <span class="car-id">ID {{ coche.id }}</span>
+            <span class="car-brand">{{ coche.marca }}</span>
+          </div>
+
+          <div class="car-price-actions">
+            <span class="car-price">{{ coche.precio | currency:'EUR':'symbol':'1.0-2' }}</span>
+
+            <div class="actions-group">
+              <button class="btn-action edit" (click)="prepararEdicion(coche)" title="Editar">
+                <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+              </button>
+              <button class="btn-action delete" (click)="eliminarCoche(coche.id)" title="Eliminar">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <li *ngIf="listaCoches.length === 0" class="empty-state">
+          No hay unidades disponibles en el catálogo.
+        </li>
+      </ul>
+    </section>
+
+    <section class="management-section">
+      <div class="card-container">
+        <div class="section-header">
+          <span class="subtitle">{{ editando ? 'Modificación de activos' : 'Configurador' }}</span>
+          <h2>{{ editando ? 'Modificar coche' : 'Añadir nuevo coche' }}</h2>
+        </div>
+
+        <div class="form-wrapper">
+          <div class="form-group">
+            <label>Marca del Vehículo</label>
+            <input type="text" [(ngModel)]="marca" placeholder="Ej. Mercedes-AMG GT" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label>Precio de Venta</label>
+            <input type="number" [(ngModel)]="precio" placeholder="0.00" autocomplete="off">
+          </div>
+
+          <div class="button-group">
+            <button class="btn-add" (click)="editando ? guardarCambios() : addCoche()">
+              <span>{{ editando ? 'Actualizar Unidad' : 'Registrar Unidad' }}</span>
+            </button>
+
+            <button *ngIf="editando" class="btn-cancel" (click)="cancelarEdicion()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
